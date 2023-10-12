@@ -1,15 +1,9 @@
 {
   "todos": [
     {
-      "id": "2a7ad27b-38ca-461f-abc2-eefcf314b169",
-      "date": "2023-10-12T10:05:16.791Z",
+      "id": "4dae6d6a-c581-4a84-b54b-b418ffe0f269",
+      "date": "2023-10-12T10:36:09.242Z",
       "content": "Primeira TODO",
-      "done": false
-    },
-    {
-      "id": "5f334c40-caee-4380-a982-c2c091f61d7e",
-      "date": "2023-10-12T10:05:16.792Z",
-      "content": "Atualizada!",
       "done": false
     }
   ]

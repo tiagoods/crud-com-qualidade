@@ -5,8 +5,10 @@ const DB_FILE_PATH = "./core/db";
 
 console.log("[CRUD]");
 
+type UUID = string;
+
 interface Todo {
-  id: string;
+  id: UUID;
   date: string;
   content: string;
   done: boolean;
@@ -43,7 +45,7 @@ function read(): Array<Todo> {
   return db.todos;
 }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   const todos = read();
 
@@ -64,10 +66,20 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-function updateContentById(id: string, content: string): Todo {
+function updateContentById(id: UUID, content: string): Todo {
   return update(id, {
     content,
   });
+}
+
+function deleteById(id: UUID) {
+  const todos = read();
+
+  const todosWithoutOne = todos.filter((currentTodo) => currentTodo.id !== id);
+
+  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
+    todos: todosWithoutOne,
+  }, null, 2));
 }
 
 function clear_db() {
@@ -83,4 +95,7 @@ const secondTodo = create("Segunda TODO");
 //   content: "Segunda TODO com novo content",
 // });
 updateContentById(secondTodo.id, "Atualizada!");
-console.log(read());
+deleteById(secondTodo.id);
+const todos = read();
+console.log(todos);
+console.log(todos.length);
