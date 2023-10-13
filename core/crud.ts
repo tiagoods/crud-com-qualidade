@@ -114,6 +114,7 @@ const secondTodo = create("Segunda TODO");
 // });
 updateContentById(secondTodo.id, "Atualizada!");
 create("Terceira TODO");
+create("Quarta TODO");
 // deleteById(secondTodo.id);
 // const todos = read();
 // console.log(todos);
