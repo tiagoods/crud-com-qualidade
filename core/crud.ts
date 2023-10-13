@@ -22,14 +22,18 @@ function create(content: string): Todo {
     done: false,
   };
 
-  const todos: Array<Todo> = [
-    ...read(),
-    todo,
-  ];
+  const todos: Array<Todo> = [...read(), todo];
 
-  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
-    todos,
-  }, null, 2));
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify(
+      {
+        todos,
+      },
+      null,
+      2
+    )
+  );
 
   return todo;
 }
@@ -55,9 +59,16 @@ function update(id: UUID, partialTodo: Partial<Todo>): Todo {
     }
   });
 
-  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
-    todos,
-  }, null, 2));
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify(
+      {
+        todos,
+      },
+      null,
+      2
+    )
+  );
 
   if (!updatedTodo) {
     throw new Error("Please, provide another ID.");
@@ -77,9 +88,16 @@ function deleteById(id: UUID) {
 
   const todosWithoutOne = todos.filter((currentTodo) => currentTodo.id !== id);
 
-  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
-    todos: todosWithoutOne,
-  }, null, 2));
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify(
+      {
+        todos: todosWithoutOne,
+      },
+      null,
+      2
+    )
+  );
 }
 
 function clear_db() {
