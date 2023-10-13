@@ -1,25 +1,24 @@
 import React from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
+import { todoController } from "@ui/controller/todo";
 
 // const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 const bg = "/bg.jpg";
 
-const todos = [
-  {
-    id: "4fc9602d-927e-4b2e-b4c7-9f4314670c28",
-    date: "2023-10-13T11:37:56.230Z",
-    content: "Primeira TODO",
-    done: true,
-  },
-  {
-    id: "4bc9702d-927e-4b2e-b4c7-9f4314670c28",
-    date: "2023-10-13T12:37:56.230Z",
-    content: "Segunda TODO",
-    done: false,
-  },
-];
+interface HomeTodo {
+  id: string;
+  content: string;
+}
 
 function HomePage() {
+  const [todos, setTodos] = React.useState<HomeTodo[]>([]);
+
+  React.useEffect(() => {
+    todoController.get().then((todos) => {
+      setTodos(todos);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalStyles themeName="devsoutinho" />
