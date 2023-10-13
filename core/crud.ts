@@ -113,7 +113,8 @@ const secondTodo = create("Segunda TODO");
 //   content: "Segunda TODO com novo content",
 // });
 updateContentById(secondTodo.id, "Atualizada!");
-deleteById(secondTodo.id);
+create("Terceira TODO");
+// deleteById(secondTodo.id);
 // const todos = read();
 // console.log(todos);
 // console.log(todos.length);

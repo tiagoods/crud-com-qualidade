@@ -4,6 +4,21 @@ import { GlobalStyles } from "@ui/theme/GlobalStyles";
 // const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 const bg = "/bg.jpg";
 
+const todos = [
+  {
+    id: "4fc9602d-927e-4b2e-b4c7-9f4314670c28",
+    date: "2023-10-13T11:37:56.230Z",
+    content: "Primeira TODO",
+    done: true,
+  },
+  {
+    id: "4bc9702d-927e-4b2e-b4c7-9f4314670c28",
+    date: "2023-10-13T12:37:56.230Z",
+    content: "Segunda TODO",
+    done: false,
+  },
+];
+
 function HomePage() {
   return (
     <main>
@@ -42,36 +57,34 @@ function HomePage() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>d4f26</td>
-              <td>
-                Conteúdo de uma TODO Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Eaque vero facilis obcaecati, autem aliquid
-                eius! Consequatur eaque doloribus laudantium soluta optio odit,
-                provident, ab voluptates doloremque voluptas recusandae
-                aspernatur aperiam.
-              </td>
-              <td align="right">
-                <button data-type="delete">Apagar</button>
-              </td>
-            </tr>
+            {todos.map((todo) => {
+              return (
+                <tr key={todo.id}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{todo.id.substring(0, 5)}</td>
+                  <td>{todo.content}</td>
+                  <td align="right">
+                    <button data-type="delete">Apagar</button>
+                  </td>
+                </tr>
+              );
+            })}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 Carregando...
               </td>
-            </tr>
+            </tr> */}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center">
                 Nenhum item encontrado
               </td>
-            </tr>
+            </tr> */}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 <button data-type="load-more">
                   Carregar mais{" "}
@@ -86,7 +99,7 @@ function HomePage() {
                   </span>
                 </button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </section>
