@@ -1,33 +1,27 @@
 {
   "todos": [
     {
-      "id": "5794583f-621e-4767-8235-238f12146f85",
-      "date": "2023-10-14T13:32:56.346Z",
+      "id": "242aa428-21bf-4ee4-9f88-47bb473ad549",
+      "date": "2023-10-14T14:33:03.884Z",
       "content": "Primeira TODO",
       "done": false
     },
     {
-      "id": "43d0d735-fedb-43bd-82bf-e0c0bd5f3255",
-      "date": "2023-10-14T13:32:56.346Z",
+      "id": "4cb3835c-ec80-4d9f-b8f9-38e4df082f14",
+      "date": "2023-10-14T14:33:03.884Z",
       "content": "Atualizada!",
       "done": false
     },
     {
-      "id": "021791ff-bdff-496a-bad0-06e5a61de9fc",
-      "date": "2023-10-14T13:32:56.350Z",
+      "id": "babf2e0e-eb7c-4912-9b24-6e21feeb0570",
+      "date": "2023-10-14T14:33:03.890Z",
       "content": "Terceira TODO",
       "done": false
     },
     {
-      "id": "03848a42-1958-46de-8f5f-313f985ccbfb",
-      "date": "2023-10-14T13:32:56.351Z",
+      "id": "10e14236-ea6c-4acf-b5df-c569f948587d",
+      "date": "2023-10-14T14:33:03.890Z",
       "content": "Quarta TODO",
-      "done": false
-    },
-    {
-      "id": "44077881-950f-44fb-b6b2-6be4ff39afaf",
-      "date": "2023-10-14T13:33:31.588Z",
-      "content": "Nova TODO",
       "done": false
     }
   ]
