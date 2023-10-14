@@ -11,12 +11,12 @@ interface HomeTodo {
 }
 
 function HomePage() {
+  const initialLoadComplete = React.useRef(false);
   const [page, setPage] = React.useState(1);
   const [todos, setTodos] = React.useState<HomeTodo[]>([]);
   const [search, setSearch] = React.useState("");
   const [totalPages, setTotalPages] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [initialLoadComplete, setInitialLoadComplete] = React.useState(false);
 
   const homeTodos = todoController.filterTodosByContent<HomeTodo>(
     search,
@@ -26,9 +26,7 @@ function HomePage() {
   const hasNoTodos = homeTodos.length === 0 && !isLoading;
 
   React.useEffect(() => {
-    setInitialLoadComplete(true);
-
-    if (!initialLoadComplete) {
+    if (!initialLoadComplete.current) {
       todoController
         .get({ page })
         .then(({ todos, pages }) => {
@@ -37,6 +35,7 @@ function HomePage() {
         })
         .finally(() => {
           setIsLoading(false);
+          initialLoadComplete.current = true;
         });
     }
   }, []);
