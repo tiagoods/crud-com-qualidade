@@ -64,8 +64,8 @@ function HomePage() {
 
                 setNewTodoContent("");
               },
-              onError() {
-                alert("A content must be provided.");
+              onError(customMessage) {
+                alert(customMessage || "A content must be provided.");
               },
             });
           }}
