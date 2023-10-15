@@ -1,8 +1,7 @@
 name: "[CI] Continuous Integration"
 
 on:
-  push:
-    types: [opened, synchronize]
+  push
 
 jobs:
   lint:
