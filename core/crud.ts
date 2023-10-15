@@ -49,7 +49,7 @@ export function read(): Array<Todo> {
   return db.todos;
 }
 
-function update(id: UUID, partialTodo: Partial<Todo>): Todo {
+export function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   const todos = read();
 
@@ -105,16 +105,16 @@ function clear_db() {
 }
 
 // [SIMULATION]
-clear_db();
+// clear_db();
 
-create("Primeira TODO");
-const secondTodo = create("Segunda TODO");
+// create("Primeira TODO");
+// const secondTodo = create("Segunda TODO");
 // update(secondTodo.id, {
 //   content: "Segunda TODO com novo content",
 // });
-updateContentById(secondTodo.id, "Atualizada!");
-create("Terceira TODO");
-create("Quarta TODO");
+// updateContentById(secondTodo.id, "Atualizada!");
+// create("Terceira TODO");
+// create("Quarta TODO");
 // deleteById(secondTodo.id);
 // const todos = read();
 // console.log(todos);
