@@ -77,7 +77,7 @@ export function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-function updateContentById(id: UUID, content: string): Todo {
+export function updateContentById(id: UUID, content: string): Todo {
   return update(id, {
     content,
   });
@@ -100,7 +100,7 @@ export function deleteById(id: UUID) {
   );
 }
 
-function clear_db() {
+export function clear_db() {
   fs.writeFileSync(DB_FILE_PATH, "");
 }
 
