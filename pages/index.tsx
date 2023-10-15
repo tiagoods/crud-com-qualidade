@@ -72,6 +72,7 @@ function HomePage() {
           }}
         >
           <input
+            name="add-todo"
             type="text"
             value={newTodoContent}
             placeholder="Correr, Estudar..."
