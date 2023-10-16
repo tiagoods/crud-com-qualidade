@@ -1,14 +1,6 @@
-import { create, read, update, deleteById as removeById } from "@crud";
 import { HttpNotFoundError } from "@server/infra/errors";
 import { Todo, TodoSchema } from "@server/schema/todo";
-
-// ==============================================
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_SECRET_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseKey);
-// ==============================================
+import { supabase } from "@server/infra/db/supabase";
 
 interface TodoRepositoryGetParams {
   page?: number;
@@ -36,6 +28,7 @@ async function get({
     .select("*", {
       count: "exact",
     })
+    .order("date", { ascending: false })
     .range(startIndex, endIndex);
 
   if (error) throw new Error("Failed to fetch data");
@@ -59,31 +52,69 @@ async function get({
 }
 
 async function createByContent(content: string): Promise<Todo> {
-  return create(content);
+  const { data, error } = await supabase
+    .from("todos")
+    .insert([
+      {
+        content,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) throw new Error("Failed to create todo");
+
+  const parsedData = TodoSchema.parse(data);
+
+  return parsedData;
+}
+
+async function getTodoById(id: string): Promise<Todo> {
+  const { data, error } = await supabase
+    .from("todos")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) throw new Error("Failed to get TODO by ID");
+
+  const parsedData = TodoSchema.safeParse(data);
+
+  if (!parsedData.success)
+    throw new Error("Failed to parse TODO from database");
+
+  return parsedData.data;
 }
 
 async function toggleDone(id: string): Promise<Todo> {
-  const todos = read();
-  const todo = todos.find((todo) => todo.id === id);
+  const todo = await getTodoById(id);
 
-  if (!todo) {
-    throw new Error(`Todo with id "${id}" not found`);
-  }
+  const { data, error } = await supabase
+    .from("todos")
+    .update({
+      done: !todo.done,
+    })
+    .eq("id", id)
+    .select()
+    .single();
 
-  return update(todo.id, {
-    done: !todo.done,
-  });
+  if (error) throw new Error("Failed to get TODO by ID");
+
+  const parsedData = TodoSchema.safeParse(data);
+
+  if (!parsedData.success) throw new Error("Failed to return updated TODO");
+
+  return parsedData.data;
 }
 
 async function deleteById(id: string): Promise<void> {
-  const todos = read();
-  const todo = todos.find((todo) => todo.id === id);
+  const { error } = await supabase.from("todos").delete().match({
+    id,
+  });
 
-  if (!todo) {
+  if (error) {
     throw new HttpNotFoundError(`Todo with id "${id}" not found`);
   }
-
-  removeById(id);
 }
 
 export const todoRepository = {
