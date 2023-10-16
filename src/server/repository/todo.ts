@@ -1,5 +1,6 @@
 import { create, read, update, deleteById as removeById } from "@crud";
 import { HttpNotFoundError } from "@server/infra/errors";
+import { Todo, TodoSchema } from "@server/schema/todo";
 
 // ==============================================
 import { createClient } from "@supabase/supabase-js";
@@ -24,35 +25,37 @@ async function get({
   page,
   limit,
 }: TodoRepositoryGetParams = {}): Promise<TodoRepositoryGetOutput> {
-  const { data, error, count } = await supabase.from("todos").select("*", {
-    count: "exact",
-  });
+  const currentPage = page || 1;
+  const currentLimit = limit || 10;
+
+  const startIndex = (currentPage - 1) * currentLimit;
+  const endIndex = startIndex + currentLimit - 1;
+
+  const { data, error, count } = await supabase
+    .from("todos")
+    .select("*", {
+      count: "exact",
+    })
+    .range(startIndex, endIndex);
 
   if (error) throw new Error("Failed to fetch data");
 
-  const todos = data as Todo[];
+  const parsedData = TodoSchema.array().safeParse(data);
+
+  if (!parsedData.success) {
+    // throw parsedData.error;
+    throw new Error("Failed to parse TODO from database");
+  }
+
+  const todos = parsedData.data;
   const total = count || todos.length;
+  const pages = Math.ceil(total / currentLimit);
 
   return {
     todos,
     total,
-    pages: 1,
+    pages,
   };
-
-  // const currentPage = page || 1;
-  // const currentLimit = limit || 10;
-  // const todos = read().reverse();
-
-  // const startIndex = (currentPage - 1) * currentLimit;
-  // const endIndex = startIndex + currentLimit;
-  // const paginatedTodos = todos.slice(startIndex, endIndex);
-  // const pages = Math.ceil(todos.length / currentLimit);
-
-  // return {
-  //   todos: paginatedTodos,
-  //   total: todos.length,
-  //   pages,
-  // };
 }
 
 async function createByContent(content: string): Promise<Todo> {
@@ -89,11 +92,3 @@ export const todoRepository = {
   toggleDone,
   deleteById,
 };
-
-// Model/Schema
-interface Todo {
-  id: string;
-  content: string;
-  date: string;
-  done: boolean;
-}
